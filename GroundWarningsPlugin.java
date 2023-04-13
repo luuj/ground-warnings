@@ -182,7 +182,7 @@ public class GroundWarningsPlugin extends Plugin
 		{
 			babarocks.add(event.getGraphicsObject());
 			rocksSpawning = true;
-			rockTicks = 7;
+			rockTicks = 4;
 		}
 		if (event.getGraphicsObject().getId() == LIGHTNING)
 		{

@@ -43,6 +43,18 @@ public interface GroundWarningsConfig extends Config
 		return true;
 	}
 
+	@ConfigItem(
+			keyName = "shadowsTickCounter",
+			name = "Shadows Tick Counter",
+			description = "Displays the number of ticks until shadows do damage",
+			position = 1,
+			section = shadowsSection
+	)
+	default boolean shadowsTickCounter()
+	{
+		return true;
+	}
+
 	@Range(
 		max = 20,
 		min = 1
@@ -51,7 +63,7 @@ public interface GroundWarningsConfig extends Config
 		keyName = "shadowsRenderDistance",
 		name = "Render Distance",
 		description = "Render shadows distance in tiles from your player",
-		position = 1,
+		position = 2,
 		section = shadowsSection
 	)
 	@Units("tiles")
@@ -65,7 +77,7 @@ public interface GroundWarningsConfig extends Config
 		keyName = "shadowsBorderColour",
 		name = "Shadows border colour",
 		description = "Colour the edges of the area highlighted by shadows",
-		position = 2,
+		position = 3,
 		section = shadowsSection
 	)
 	default Color shadowsBorderColour()
@@ -78,7 +90,7 @@ public interface GroundWarningsConfig extends Config
 		keyName = "shadowsColour",
 		name = "Shadows colour",
 		description = "Colour for shadows highlight",
-		position = 3,
+		position = 4,
 		section = shadowsSection
 	)
 	default Color shadowsColour()
@@ -153,10 +165,22 @@ public interface GroundWarningsConfig extends Config
 			keyName = "highlightLightning",
 			name = "Highlight Lightning",
 			description = "Highlights lightning in final phase",
-			position = 2,
+			position = 1,
 			section = wardenSection
 	)
 	default boolean highlightLightning()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			keyName = "p3TickCounter",
+			name = "P3 Tick Counter",
+			description = "Displays the number of ticks until attacks do damage",
+			position = 2,
+			section = wardenSection
+	)
+	default boolean p3TickCounter()
 	{
 		return true;
 	}

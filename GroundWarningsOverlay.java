@@ -75,6 +75,16 @@ class GroundWarningsOverlay extends Overlay
 						graphics.draw(poly);
 						graphics.setColor(config.shadowsColour());
 						graphics.fill(poly);
+
+						if (config.shadowsTickCounter())
+						{
+							String count = Integer.toString(plugin.getShadowsTicks());
+							Point point = Perspective.getCanvasTextLocation(client, graphics, lp, count, 0);
+							if (point != null)
+							{
+								renderTextLocation(graphics, count, 12, Font.BOLD, Color.WHITE, point);
+							}
+						}
 					}
 				}
 			}
@@ -100,6 +110,16 @@ class GroundWarningsOverlay extends Overlay
 					graphics.draw(poly);
 					graphics.setColor(config.wardenColour());
 					graphics.fill(poly);
+
+					if (config.p3TickCounter())
+					{
+						String count = Integer.toString(plugin.getRockTicks());
+						Point point = Perspective.getCanvasTextLocation(client, graphics, lp, count, 0);
+						if (point != null)
+						{
+							renderTextLocation(graphics, count, 12, Font.BOLD, Color.WHITE, point);
+						}
+					}
 				}
 			}
 			if (plugin.isRocksSpawning() && plugin.getNm() != null)
@@ -124,6 +144,16 @@ class GroundWarningsOverlay extends Overlay
 					graphics.draw(poly);
 					graphics.setColor(config.wardenColour());
 					graphics.fill(poly);
+
+					if (config.p3TickCounter())
+					{
+						String count = Integer.toString(plugin.getLightningTicks());
+						Point point = Perspective.getCanvasTextLocation(client, graphics, lp, count, 0);
+						if (point != null)
+						{
+							renderTextLocation(graphics, count, 12, Font.BOLD, Color.WHITE, point);
+						}
+					}
 				}
 			}
 			if (plugin.isLightningSpawning() && plugin.getNm() != null)
