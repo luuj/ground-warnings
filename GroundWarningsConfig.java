@@ -20,39 +20,14 @@ public interface GroundWarningsConfig extends Config
 	String groundConfig = "Ground Config";
 
 	@ConfigItem(
-		keyName = "highlightShadows",
-		name = "Highlight Nightmare Shadows",
-		description = "Highlights the Shadow Attacks",
-		position = 0,
-		section = groundSection
-	)
-	default boolean highlightShadows()
-	{
-		return true;
-	}
-
-	@ConfigItem(
-		keyName = "highlightSpores",
-		name = "Highlight Nightmare Spores",
-		description = "Highlights spores that will make you yawn",
-		position = 1,
-		section = groundSection
-	)
-	default boolean highlightSpores()
-	{
-		return true;
-	}
-
-	@ConfigItem(
-			keyName = "highlightBaba",
-			name = "Highlight Baba Rocks",
-			description = "Highlights baba rocks that fall from the sky",
-			position = 2,
+			name = "Ground ID List",
+			keyName = "allID",
+			description = "GroundID, GroundTicks",
+			position = 1,
 			section = groundSection
 	)
-	default boolean highlightBaba()
-	{
-		return true;
+	default String allID() {
+		return "";
 	}
 
 	@Alpha

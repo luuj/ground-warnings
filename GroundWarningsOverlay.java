@@ -1,6 +1,5 @@
 package net.runelite.client.plugins.groundwarnings;
 
-import com.google.common.graph.Graph;
 import net.runelite.api.Point;
 import net.runelite.api.*;
 import net.runelite.api.coords.LocalPoint;
@@ -11,10 +10,7 @@ import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.awt.*;
-import java.awt.geom.Area;
-import java.util.Map;
 
-import static net.runelite.api.Perspective.getCanvasTileAreaPoly;
 
 @Singleton
 class GroundWarningsOverlay extends Overlay
@@ -72,12 +68,6 @@ class GroundWarningsOverlay extends Overlay
 				}
 			}
 		}
-
-		if (config.highlightSpores())
-		{
-			drawPoisonArea(graphics, plugin.getSpores());
-		}
-
 		return null;
 	}
 
@@ -92,32 +82,5 @@ class GroundWarningsOverlay extends Overlay
 			OverlayUtil.renderTextLocation(graphics, canvasCenterPointShadow, txtString, Color.BLACK);
 			OverlayUtil.renderTextLocation(graphics, canvasCenterPoint, txtString, fontColor);
 		}
-	}
-
-	private void drawPoisonArea(Graphics2D graphics, Map<LocalPoint, GameObject> spores)
-	{
-		if (spores.size() < 1)
-		{
-			return;
-		}
-
-		Area poisonTiles = new Area();
-
-		for (Map.Entry<LocalPoint, GameObject> entry : spores.entrySet())
-		{
-			LocalPoint point = entry.getKey();
-			Polygon poly = getCanvasTileAreaPoly(client, point, 3);
-
-			if (poly != null)
-			{
-				poisonTiles.add(new Area(poly));
-			}
-		}
-
-		graphics.setPaintMode();
-		graphics.setColor(config.borderCol());
-		graphics.draw(poisonTiles);
-		graphics.setColor(config.groundCol());
-		graphics.fill(poisonTiles);
 	}
 }

@@ -1,10 +1,10 @@
 package net.runelite.client.plugins.groundwarnings;
 
+import com.google.common.base.Splitter;
 import com.google.inject.Provides;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.runelite.api.*;
-import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.events.*;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -18,6 +18,7 @@ import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.*;
+import java.util.List;
 
 @PluginDescriptor(
 	name = "<html><font color=#b82584>[J] Ground Warnings",
@@ -44,20 +45,8 @@ public class GroundWarningsPlugin extends Plugin
 	private ItemManager itemManager;
 	@Inject
 	private GroundWarningsOverlay overlay;
+	private static final Splitter SPLITTER = Splitter.on("\n").omitEmptyStrings().trimResults();
 
-	private static final int NIGHTMARE_PRE_MUSHROOM = 37738;
-	private static final int NIGHTMARE_MUSHROOM = 37739;
-	private static final int NIGHTMARE_SHADOW = 1767;
-	private static final int NIGHTMARE_SHADOW_TICKS = 5;
-	private static final int BABA_ROCKS = 317;
-	private static final int BABA_ROCKS2 = 2250;
-	private static final int BABA_ROCKS3 = 2251;
-	private static final int BABA_ROCKS_TICKS = 7;
-
-	//yellow 1595
-
-	@Getter(AccessLevel.PACKAGE)
-	private final Map<LocalPoint, GameObject> spores = new HashMap<>();
 	@Getter(AccessLevel.PACKAGE)
 	private final ArrayList<GroundContainer> graphicsObjects = new ArrayList();
 
@@ -85,44 +74,25 @@ public class GroundWarningsPlugin extends Plugin
 
 	private void reset()
 	{
-		spores.clear();
 		graphicsObjects.clear();
-	}
-
-	@Subscribe
-	private void onGameObjectSpawned(GameObjectSpawned event)
-	{
-		GameObject gameObj = event.getGameObject();
-		int id = gameObj.getId();
-		if ((id == NIGHTMARE_MUSHROOM || id == NIGHTMARE_PRE_MUSHROOM) && this.config.highlightSpores())
-		{
-			spores.put(gameObj.getLocalLocation(), gameObj);
-		}
-	}
-
-	@Subscribe
-	private void onGameObjectDespawned(GameObjectDespawned event)
-	{
-		GameObject gameObj = event.getGameObject();
-		int id = gameObj.getId();
-		if ((id == NIGHTMARE_MUSHROOM || id == NIGHTMARE_PRE_MUSHROOM) && this.config.highlightSpores())
-		{
-			spores.remove(gameObj.getLocalLocation());
-		}
 	}
 
 	@Subscribe
 	public void onGraphicsObjectCreated(GraphicsObjectCreated event)
 	{
-		if ((event.getGraphicsObject().getId() == NIGHTMARE_SHADOW) && this.config.highlightShadows())
-		{
-			graphicsObjects.add(new GroundContainer(event.getGraphicsObject(), NIGHTMARE_SHADOW_TICKS));
-		}
-		if ((event.getGraphicsObject().getId() == BABA_ROCKS ||
-				event.getGraphicsObject().getId() == BABA_ROCKS2 ||
-				event.getGraphicsObject().getId() == BABA_ROCKS3) && this.config.highlightBaba())
-		{
-			graphicsObjects.add(new GroundContainer(event.getGraphicsObject(), BABA_ROCKS_TICKS));
+		GraphicsObject go = event.getGraphicsObject();
+		List<String> strList = SPLITTER.splitToList(this.config.allID());
+		Iterator var4 = strList.iterator();
+
+		while(var4.hasNext()) {
+			String str = (String)var4.next();
+			String[] stringList = str.split(",");
+			if (stringList.length > 1) {
+				if (go.getId() == Integer.valueOf(stringList[0])){
+					this.graphicsObjects.add(new GroundContainer(go, Integer.valueOf(stringList[1])));
+					return;
+				}
+			}
 		}
 	}
 
